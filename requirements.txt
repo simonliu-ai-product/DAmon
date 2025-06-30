@@ -1,0 +1,13 @@
+Click
+litellm
+python-dotenv
+PyPDF2
+python-docx
+python-pptx
+pandas
+pyarrow
+loguru
+tenacity
+tqdm
+openpyxl
+datasets
