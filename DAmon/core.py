@@ -120,7 +120,8 @@ def parse_pptx(file_path: str) -> str:
                     if shape.text:
                         slide_text.append(shape.text)
             if slide_text:
-                content.append(f"--- Slide {i+1} ---\n{'\n'.join(slide_text)}")
+                slide_content = '\n'.join(slide_text)
+                content.append(f"--- Slide {i+1} ---\n{slide_content}")
         logger.debug(f"Parsed PPTX: {file_path}")
         return "\n".join(content)
     except Exception as e:
