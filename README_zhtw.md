@@ -1,5 +1,7 @@
 # DAmon
 
+[![PyPI - Version](https://img.shields.io/pypi/v/DAmon/0.1.0)](https://pypi.org/project/DAmon/0.1.0/)
+
 Data Arrangement/Annotation via Simon's tool.
 
 一個使用大型語言模型 (LLMs) 從文件中提取結構化問答的命令列工具 (CLI)。
@@ -26,29 +28,11 @@ Data Arrangement/Annotation via Simon's tool.
 
 ## 安裝
 
-1.  **複製儲存庫**：
+從 PyPI 安裝套件：
 
-    ```bash
-    git clone https://github.com/simonliu-ai-project/DAmon.git
-    cd DAmon
-    ```
-
-2.  **建立虛擬環境（建議）**：
-
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3.  **安裝套件及其依賴項**：
-
-    ```bash
-    pip install -e .
-    ```
-    或者，您可以從 `requirements.txt` 安裝依賴項：
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+pip install DAmon
+```
 
 ## 設定
 
@@ -57,7 +41,6 @@ Data Arrangement/Annotation via Simon's tool.
 在專案的根目錄中建立一個 `.env` 檔案，並新增您的 Litellm 模型和 API 金鑰。例如，如果您使用 OpenAI：
 
 ```dotenv
-LITELLM_MODEL=gemini-2.0-flash
 GEMINI_API_KEY=<gemini-api-key>
 ```
 
@@ -67,12 +50,12 @@ GEMINI_API_KEY=<gemini-api-key>
 
 主要的命令列介面是 `damon`。
 
-### 提取問答
+### 處理文件
 
-使用 `extract` 命令處理文件並提取問答對。
+使用 `process` 命令處理文件並提取問答對。
 
 ```bash
-damon extract <INPUT_PATH> [OPTIONS]
+damon process <INPUT_PATH> [OPTIONS]
 ```
 
 -   `<INPUT_PATH>`：輸入文件（檔案或目錄）的路徑。
@@ -80,17 +63,17 @@ damon extract <INPUT_PATH> [OPTIONS]
 **選項**：
 
 -   `--input-format [pdf|csv|docx|pptx|auto]`：輸入文件格式。使用 `"auto"` 根據檔案副檔名自動偵測。預設值：`auto`。
--   `--model TEXT`：用於問答提取的 Litellm 模型名稱。會覆寫 `.env` 中的 `LITELLM_MODEL`。預設值：`gemini/gemini-2.5-flash`（或來自 `LITELLM_MODEL` 的值）。
+-   `--model TEXT`：用於問答提取的 Litellm 模型名稱。
 -   `--output-path PATH`：儲存提取問答的路徑。可以是檔案或目錄。如果是目錄，將建立一個帶有時間戳記的檔案。預設值：`results/output.jsonl`。
 -   `--export-format [jsonl|csv|parquet]`：匯出提取問答的格式。預設值：`jsonl`。
--   `--num-qa-pairs INTEGER`：每個文件要提取的問答對數量。如果未指定，則盡可能多地提取。
+-   `--num-qa INTEGER`：每個文件要提取的問答對數量。如果未指定，則盡可能多地提取。
 
 **範例**：
 
-1.  **從單一 PDF 檔案提取，輸出為 CSV**：
+1.  **處理單一 PDF 檔案，輸出為 CSV**：
 
     ```bash
-    damon extract data/test.pdf --input-format pdf --output-path results/manual_qa.csv --export-format csv --model gemini/gemini-2.5-flash
+    damon process --input data/test.pdf --model gemini/gemini-2.5-flash --output results/cyber_output --export csv --num-qa 5
     ```
 
 2.  **處理目錄中的所有文件，自動偵測格式，輸出為 JSONL**：
@@ -99,18 +82,18 @@ damon extract <INPUT_PATH> [OPTIONS]
     damon extract data/ --input-format auto --output-path results/ --export-format jsonl
     ```
 
-3.  **從 DOCX 檔案提取特定數量的問答對**：
+3.  **從 DOCX 檔案處理特定數量的問答對**：
 
     ```bash
-    damon extract documents/report.docx --input-format docx --num-qa-pairs 5 --output-path results/report_qa.jsonl
+    damon process documents/report.docx --input-format docx --num-qa 5 --output-path results/report_qa.jsonl
     ```
 
 ### 推送到 Hugging Face Hub
 
-使用 `push` 命令將您提取的資料集檔案上傳到 Hugging Face Hub。
+使用 `push-to-hf` 命令將您提取的資料集檔案上傳到 Hugging Face Hub。
 
 ```bash
-damon push --input-file <FILE_PATH> --repo-id <REPO_ID> [--split <SPLIT_NAME>]
+damon push-to-hf --input-file <FILE_PATH> --repo-id <REPO_ID> [--split <SPLIT_NAME>]
 ```
 
 -   `--input-file <FILE_PATH>`: 要推送的資料檔案路徑（例如 `results/output.jsonl`）。
@@ -125,7 +108,7 @@ damon push --input-file <FILE_PATH> --repo-id <REPO_ID> [--split <SPLIT_NAME>]
 **範例**：
 
 ```bash
-damon push --input-file results/output_20250630_140154.csv --repo-id your-username/my-extracted-qa-dataset --split train
+damon push-to-hf --input-file results/output_20250630_140154.csv --repo-id your-username/my-extracted-qa-dataset --split train
 ```
 
 ## 支援的文件類型
