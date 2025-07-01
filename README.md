@@ -79,7 +79,7 @@ damon process <INPUT_PATH> [OPTIONS]
 2.  **Process all documents in a directory, auto-detect format, output to JSONL:**
 
     ```bash
-    damon extract data/ --input-format auto --output-path results/ --export-format jsonl
+    damon process data/ --input-format auto --output-path results/ --export-format jsonl
     ```
 
 3.  **Process a specific number of Q&A pairs from a DOCX file:**
