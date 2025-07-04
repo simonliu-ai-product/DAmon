@@ -1,6 +1,6 @@
 # DAmon
 
-[![PyPI - Version](https://img.shields.io/pypi/v/DAmon/0.1.0)](https://pypi.org/project/DAmon/0.1.0/)
+[![PyPI - Version](https://img.shields.io/pypi/v/DAmon/0.1.2)](https://pypi.org/project/DAmon/0.1.2/)
 
 Data Arrangement/Annotation via Simon's tool.
 
@@ -46,6 +46,15 @@ GEMINI_API_KEY=<gemini-api-key>
 
 請參閱 [Litellm 文件](https://litellm.ai/docs/providers) 以了解如何設定不同的 LLM 提供商及其各自的環境變數。
 
+### 自訂提示範本
+
+您可以自訂 LLM 的提示範本。`damon` 命令將在執行目錄中尋找名為 `DAMON_PROMPT.md` 的檔案。
+
+- 如果 `DAMON_PROMPT.md` 存在，其內容將用作 `PROMPT_TEMPLATE`。
+- 如果 `DAMON_PROMPT.md` 不存在，將使用 `DAmon/core.py` 中嵌入的預設提示範本。
+
+專案根目錄中提供了一個範本檔案 `DAMON_PROMPT_template.md`。您可以複製並將此檔案重新命名為 `DAMON_PROMPT.md` 以開始自訂您的提示。
+
 ## 使用方式
 
 主要的命令列介面是 `damon`。
@@ -79,7 +88,7 @@ damon process <INPUT_PATH> [OPTIONS]
 2.  **處理目錄中的所有文件，自動偵測格式，輸出為 JSONL**：
 
     ```bash
-    damon extract data/ --input-format auto --output-path results/ --export-format jsonl
+    damon process data/ --input-format auto --output-path results/ --export-format jsonl
     ```
 
 3.  **從 DOCX 檔案處理特定數量的問答對**：

@@ -1,6 +1,6 @@
 # DAmon
 
-[![PyPI - Version](https://img.shields.io/pypi/v/DAmon/0.1.0)](https://pypi.org/project/DAmon/0.1.0/)
+[![PyPI - Version](https://img.shields.io/pypi/v/DAmon/0.1.2)](https://pypi.org/project/DAmon/0.1.2/)
 
 Data Arrangement/Annotation via Simon's tool.
 
@@ -45,6 +45,15 @@ GEMINI_API_KEY=<gemini-api-key>
 ```
 
 Refer to the [Litellm documentation](https://litellm.ai/docs/providers) for details on configuring different LLM providers and their respective environment variables.
+
+### Custom Prompt Template
+
+You can customize the LLM's prompt template. The `damon` command will look for a file named `DAMON_PROMPT.md` in the directory where it is executed.
+
+- If `DAMON_PROMPT.md` exists, its content will be used as the `PROMPT_TEMPLATE`.
+- If `DAMON_PROMPT.md` does not exist, the default prompt template embedded in `DAmon/core.py` will be used.
+
+A template file, `DAMON_PROMPT_template.md`, has been provided in the project root. You can copy and rename this file to `DAMON_PROMPT.md` to start customizing your prompt.
 
 ## Usage
 

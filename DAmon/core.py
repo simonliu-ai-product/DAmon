@@ -18,7 +18,7 @@ METADATA_FIELDS = ["filename", "page_number", "slide_index", "timestamp"]
 
 # Prompt template for LLM extraction
 # This is a basic template. It can be made more sophisticated.
-PROMPT_TEMPLATE = """
+PROMPT_TEMPLATE_DEFAULT = """
 你是一個專業的問答提取助手。你的任務是從提供的文本中，精確地提取出{num_qa_str}個問答對。
 **所有提取的資訊，包括問題、思考過程和答案，都必須嚴格地基於提供的「文本」內容，不得引入任何外部知識或臆測。**
 每個問答對必須包含以下三個鍵：'question', 'thought', 'answer'。
@@ -62,6 +62,24 @@ PROMPT_TEMPLATE = """
 {extracted_text}
 ---
 """
+
+DAMON_PROMPT_FILE = "DAMON_PROMPT.md"
+
+def load_prompt_template():
+    global PROMPT_TEMPLATE
+    full_prompt_file_path = os.path.join(os.getcwd(), DAMON_PROMPT_FILE)
+    logger.info(f"Checking for custom PROMPT_TEMPLATE at: {full_prompt_file_path}")
+
+    if os.path.exists(full_prompt_file_path):
+        logger.info(f"Using custom PROMPT_TEMPLATE from {DAMON_PROMPT_FILE}")
+        with open(full_prompt_file_path, 'r', encoding='utf-8') as f:
+            PROMPT_TEMPLATE = f.read()
+    else:
+        logger.info("Using default PROMPT_TEMPLATE.")
+        PROMPT_TEMPLATE = PROMPT_TEMPLATE_DEFAULT
+
+# Initialize PROMPT_TEMPLATE with a default value before it's potentially overwritten by load_prompt_template
+PROMPT_TEMPLATE = PROMPT_TEMPLATE_DEFAULT
 
 # --- File Parsers ---
 def parse_csv(file_path: str) -> str:

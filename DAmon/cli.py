@@ -9,15 +9,18 @@ from . import __version__
 # Load environment variables from .env file
 load_dotenv()
 
+# Configure loguru to use the desired format globally
+logger.remove() # Remove default handler
+logger.add(lambda msg: click.echo(msg, err=True), level="INFO", format="{time} | {level} | {message}")
+
 @click.group()
 @click.version_option(version=__version__)
 def cli():
     """
     DAmon: Data Arrangement/Annotation via simon tool.
     """
-    # Default logging setup for non-verbose commands
-    logger.remove() # Remove default handler
-    logger.add(lambda msg: click.echo(msg, err=True), level="INFO", format="{message}")
+    # Logging is already configured globally, no need to reconfigure here for default.
+    pass
 
 
 @cli.command()
@@ -38,14 +41,20 @@ def process(input_path, input_format, litellm_model_name, output_path, export_fo
     """
     Process documents to extract Q&A content.
     """
-    logger.remove() # Remove default handler
     if verbose:
+        logger.remove()
         logger.add("file.log", rotation="10 MB", level="DEBUG")
         logger.enable("DataArragimon")
         logger.debug("Verbose logging enabled for process command.")
     else:
-        logger.add(lambda msg: click.echo(msg, err=True), level="INFO", format="{message}")
+        # Ensure default logger is active if not verbose
+        logger.remove()
+        logger.add(lambda msg: click.echo(msg, err=True), level="INFO", format="{time} | {level} | {message}")
         logger.enable("DataArragimon")
+
+    # Load the prompt template after logger is configured
+    from .core import load_prompt_template
+    load_prompt_template()
 
     logger.info(f"Starting document processing for: {input_path}")
     logger.info(f"Using model: {litellm_model_name}")
@@ -77,13 +86,15 @@ def push_to_hf(input_file_path, repo_id, split_name, verbose):
     """
     Push extracted data to a Hugging Face Datasets repository, specifying a split.
     """
-    logger.remove() # Remove default handler
     if verbose:
+        logger.remove()
         logger.add("file.log", rotation="10 MB", level="DEBUG")
         logger.enable("DAmon")
         logger.debug("Verbose logging enabled for push-to-hf command.")
     else:
-        logger.add(lambda msg: click.echo(msg, err=True), level="INFO", format="{message}")
+        # Ensure default logger is active if not verbose
+        logger.remove()
+        logger.add(lambda msg: click.echo(msg, err=True), level="INFO", format="{time} | {level} | {message}")
         logger.enable("DAmon")
 
     logger.info(f"Attempting to push {input_file_path} as split '{split_name}' to Hugging Face Hub repository: {repo_id}")
