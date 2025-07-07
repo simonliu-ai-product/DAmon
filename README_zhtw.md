@@ -135,6 +135,10 @@ damon push-to-hf --input-file results/output_20250630_140154.csv --repo-id your-
 
 此專案根據 MIT 授權條款授權 - 有關詳細資訊，請參閱 `LICENSE` 檔案。（注意：提供的內容中不包含 `LICENSE` 檔案，但包含一個是很好的做法。）
 
+## 特別感謝
+
+特別感謝 Thomas Chong 為這個專案製作了 [DeepWiki 文件](https://deepwiki.com/simonliu-ai-product/DAmon/1-damon-overview)。
+
 ## 作者簡介
 劉育維（Simon Liu）
 

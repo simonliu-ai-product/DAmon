@@ -135,6 +135,10 @@ Contributions are welcome! Please feel free to open issues or submit pull reques
 
 This project is licensed under the MIT License - see the `LICENSE` file for details. (Note: A `LICENSE` file is not included in the provided context, but it's good practice to include one.)
 
+## Acknowledgements
+
+Special thanks to Thomas Chong for creating the [DeepWiki documentation](https://deepwiki.com/simonliu-ai-product/DAmon/1-damon-overview) for this project.
+
 ## Author
 Simon Liu
 
