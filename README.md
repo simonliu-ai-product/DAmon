@@ -1,5 +1,7 @@
 # DAmon
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/simonliu-ai-product/DAmon)
+
 [![PyPI - Version](https://img.shields.io/pypi/v/DAmon/0.1.2)](https://pypi.org/project/DAmon/0.1.2/)
 
 Data Arrangement/Annotation via Simon's tool.
